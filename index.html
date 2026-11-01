@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpectraTrust | AI Deepfake Audio Detector</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v20M17 5v14M7 9v6M22 10v4M2 10v4" />
+        </svg>
+      </div>
+      <div>
+        <span class="logo-title">SpectraTrust</span>
+        <span class="badge">Forensics v1.0</span>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="pulse-dot"></span>
+      <span class="status-text">Engine Ready • 5s Window</span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    
+    <!-- Top Action Grid: Input Methods -->
+    <section class="card input-section">
+      <div class="section-header">
+        <h2>1. Provide 5-Second Voice Note</h2>
+        <p>Record directly via your microphone or drop a short audio clip (.wav, .mp3, .m4a).</p>
+      </div>
+
+      <div class="action-grid">
+        <!-- Mic Recorder -->
+        <div class="action-card" id="mic-card">
+          <div class="action-icon">🎙️</div>
+          <h3>Microphone Record</h3>
+          <p id="rec-status-text">Press to start a timed 5-second voice capture.</p>
+          <div class="timer-display" id="rec-timer">05.00s</div>
+          <button class="btn btn-primary" id="btn-record">Start 5s Recording</button>
+        </div>
+
+        <!-- File Upload -->
+        <div class="action-card dropzone" id="drop-zone">
+          <div class="action-icon">📁</div>
+          <h3>Upload Voice Note</h3>
+          <p>Drag & drop audio here or click to browse</p>
+          <input type="file" id="file-input" accept="audio/*" hidden />
+          <button class="btn btn-secondary" id="btn-browse">Select File</button>
+          <span class="file-name" id="selected-file-name">No file selected</span>
+        </div>
+
+        <!-- Preloaded Demos -->
+        <div class="action-card">
+          <div class="action-icon">⚡</div>
+          <h3>Quick Test Samples</h3>
+          <p>Test the detection pipeline immediately with synthetic or organic speech.</p>
+          <div class="demo-buttons">
+            <button class="btn btn-sm btn-outline" id="btn-demo-real">Real Human Voice</button>
+            <button class="btn btn-sm btn-outline-danger" id="btn-demo-fake">AI Cloned Audio</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playback bar -->
+      <div class="player-wrapper hidden" id="player-wrapper">
+        <audio id="audio-playback" controls></audio>
+        <button class="btn btn-accent" id="btn-analyze">⚡ Run Forensic Audit</button>
+      </div>
+    </section>
+
+    <!-- Scanning Overlay / Progress -->
+    <div class="card scanning-card hidden" id="scanning-card">
+      <div class="scan-bar">
+        <div class="scan-fill" id="scan-progress"></div>
+      </div>
+      <div class="scan-logs" id="scan-log">Initializing neural spectral analyzer...</div>
+    </div>
+
+    <!-- Results Section -->
+    <section class="card results-section hidden" id="results-section">
+      <div class="section-header result-header">
+        <div>
+          <h2>2. Forensic Verdict & Analysis</h2>
+          <p id="file-meta">Analyzed: sample.wav | Duration: 5.00s | Sample Rate: 44.1 kHz</p>
+        </div>
+        <div class="verdict-pill" id="verdict-badge">AUTHENTIC</div>
+      </div>
+
+      
+<!-- Score & Metrics Grid -->
+<div class="metrics-grid">
+  <div class="metric-box">
+    <div class="metric-label">Authenticity Confidence</div>
+    <div class="metric-value" id="val-score">96.4%</div>
+    <div class="progress-track">
+      <div class="progress-bar-fill" id="bar-score" style="width: 96%"></div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- Visual Heatmap Timeline -->
+      <div class="canvas-panel">
+        <div class="canvas-header">
+          <span>Temporal Forgery Heatmap (0.0s – 5.0s)</span>
+          <span class="legend">
+            <span class="dot real-dot"></span> Organic
+            <span class="dot fake-dot"></span> Suspected AI Artifact
+          </span>
+        </div>
+        <canvas id="waveform-canvas" height="120"></canvas>
+      </div>
+
+      <!-- Mel Spectrogram Canvas -->
+      <div class="canvas-panel">
+        <div class="canvas-header">
+          <span>Mel-Frequency Spectrogram</span>
+          <span class="sub-legend">Logarithmic Power Spectrum (Hz)</span>
+        </div>
+        <canvas id="spectrogram-canvas" height="130"></canvas>
+      </div>
+
+      <!-- Detailed Observations -->
+      <div class="explanation-box" id="explanation-box">
+        <h4>Forensic Diagnostic Summary</h4>
+        <p id="explanation-text">
+          No synthetic vocoder fingerprints or phase inversion anomalies detected. High-frequency roll-off matches typical human vocal tract acoustics.
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="results-actions">
+        <button class="btn btn-outline" id="btn-export">Download Audit Summary (.txt)</button>
+        <button class="btn btn-secondary" id="btn-reset">Analyze Another Clip</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
